@@ -10,10 +10,11 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Generated App',
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: const Color(0xFF2196f3),
-        accentColor: const Color(0xFF2196f3),
+        primarySwatch: Colors.indigo,
+        primaryColor: const Color(0xFF041b60),
+        accentColor: const Color(0xFF3f51b5),
         canvasColor: const Color(0xFFfafafa),
+        fontFamily: 'Roboto',
       ),
       home: new MyHomePage(),
     );
@@ -34,12 +35,20 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text('App Name'),
       ),
       body:
-      new Text(
-        "Flutter",
-        style: new TextStyle(fontSize:23.0,
-            color: const Color(0xFF000000),
-            fontWeight: FontWeight.w600,
-            fontFamily: "Roboto"),
+      new Center(
+        child:
+        new Center(
+          child:
+          new Text(
+            "体重管理アプリ",
+            style: new TextStyle(fontSize:12.0,
+                color: const Color(0xFF000000),
+                fontWeight: FontWeight.w200,
+                fontFamily: "Roboto"),
+          ),
+
+        ),
+
       ),
 
     );
