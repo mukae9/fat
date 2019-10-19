@@ -28,10 +28,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _message;
+  String _message;
+  double _value = 50.0;
+  final controller = TextEditingController();
+
   @override
   void initState(){
-    _message='嘘偽りない体重を記録';
+    _message='嘘偽りない体重を記録\n$_value kg';
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -69,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Color.fromARGB(0, 0, 0, 0),
                       child: new Text(
                       _message,
+
                         textAlign: TextAlign.center,
                       style: new TextStyle(fontSize:16.0,
                       color: const Color(0xFF000000),
@@ -81,18 +86,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
               ),
-              Expanded(
-              child:Padding(
+              Padding(
                 padding: EdgeInsets.all(25.0),
-                  child:TextField(
-                    style: new TextStyle(fontSize:12.0,
-                        color: const Color(0xFF000000),
-                        fontWeight: FontWeight.w200,
-                        fontFamily: "Roboto"),
-                  ),
+                    child:Slider(
+                      key: null,
+                      onChanged: textChanged,
+                      value:_value,
+                      min: 20.0,
+                      max: 100.0,
+
+                    ),
+//                  child:TextField(
+//                    controller: controller,
+//                    onChanged: textChanged,
+//                    style: new TextStyle(fontSize:12.0,
+//                        color: const Color(0xFF000000),
+//                        fontWeight: FontWeight.w200,
+//                        fontFamily: "Roboto"),
+//                  ),
 
               ),
-              ),
+
               FlatButton(key:null,
                   onPressed:buttonPressed,
                   child:
@@ -128,9 +142,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
     );
   }
+  void textChanged(double val){
+    setState(() {
+//      _message=val.toUpperCase();
+        _value=val.floorToDouble();
+        _message= '嘘偽りない体重を記録\n$_value kg';
+
+    });
+  }
+
   void buttonPressed(){
     setState(() {
-       _message="…そのままでいいと思ってんの？";
+//       _message=controller.text + "Kg…\n"+"そのままでいいと思ってんの？";
+         _message= '$_value Kg…\nそのままでいいと思ってんの？';
     });
   }
 }
