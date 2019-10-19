@@ -118,8 +118,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontFamily: "Roboto"),
                   )
               ),
+
             ]
-          )
+          ),
+        bottomNavigationBar: new BottomNavigationBar(
+            items: [
+            new BottomNavigationBarItem(
+                icon: const Icon(Icons.create),
+            title: new Text('Add'),
+            ),
+
+            new BottomNavigationBarItem(
+            icon: const Icon(Icons.assessment),
+            title: new Text('Graf'),
+            ),
+
+            new BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            title: new Text('Mydate'),
+            )
+            ]
+
+        ),
 
 
 //      new Center(
