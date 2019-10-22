@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
+import 'dart:typed_data';
+import 'dart:async';
+import 'dart:ui' as ui;
+
 
 void main() {
   runApp(new MyApp());
@@ -49,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body:
       Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
 
@@ -89,6 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
             ),
+
+               SizedBox(
+
+                  height: 200.0,
+                   child: Center(
+                   child: MyRenderBoxWidget(),
+                )),
+
             Padding(
               padding: EdgeInsets.all(25.0),
               child: Slider(
@@ -109,11 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                  ),
 
             ),
-            Expanded(
-            child: new SizedBox(
-              height: 200.0,
-              child: MyRenderBoxWidget(),
-            )),
+
 
             FlatButton(key: null,
                 onPressed: buttonPressed,
@@ -209,30 +220,68 @@ class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
 
 class _MyRenderBox extends RenderBox {
 
+  ui.Image _img;
+
+
   @override
   bool hitTest(HitTestResult result, {@required Offset position}) {
     return true;
   }
+
+  _MyRenderBox() {
+    loadAssetImage('fat.png');
+  }
+
+  loadAssetImage(String fname) =>
+      rootBundle.load
+        ("assets/$fname").then((bd) {
+        Uint8List u8lst = Uint8List.view(bd.buffer);
+        ui.instantiateImageCodec(u8lst).then((codec) {
+          codec.getNextFrame().then(
+                  (frameInfo) {
+                _img = frameInfo.image;
+                markNeedsPaint();
+                print("_img created: $_img");
+              }
+          );
+        });
+      });
 
   @override
   void paint(PaintingContext context, Offset offset) {
     Canvas c = context.canvas;
     int dx = offset.dx.toInt();
     int dy = offset.dy.toInt();
+
     Paint p = Paint();
-    p.style = PaintingStyle.fill;
-    p.color = Color.fromARGB(150, 200, 0, 255);
-    Rect r = Rect.fromLTWH(dx + 50.0, dy + 50.0, 150.0, 150.0);
-    c.drawRect(r, p);
-    p.style = PaintingStyle.stroke;
-    p.color = Color.fromARGB(150, 200, 0, 255);
-    p.strokeWidth = 10.0;
-    r = Rect.fromLTWH(dx + 100.0, dy + 100.0, 150.0, 150.0);
-    c.drawRect(r, p);
+
+    Rect r = Rect.fromLTWH(dx + 150.0, dy + 150.0,70.0, 70.0);
+    if (_img != null) {
+      Rect r0 = Rect.fromLTWH(0.0, 0.0, _img.width.toDouble(),
+          _img.height.toDouble());
+          c.drawImageRect(_img, r0, r, p);
+      print('draw _img.');
+    } else {
+      print('_img is null.');
+    }
+
+//    p.style = PaintingStyle.fill;
+//    p.color = Color.fromARGB(150, 200, 0, 255);
+//    Rect r = Rect.fromLTWH(dx + 50.0, dy + 50.0, 150.0, 150.0);
+//    c.drawRect(r, p);
+//    p.style = PaintingStyle.stroke;
+//    p.color = Color.fromARGB(150, 200, 0, 255);
+//    p.strokeWidth = 10.0;
+//    r = Rect.fromLTWH(dx + 100.0, dy + 100.0, 150.0, 150.0);
+//    c.drawRect(r, p);
+//  }
+//
   }
 
+
   @override
-  bool get sizedByParent => true;
+  bool get sizedByParent =>
+      true;
 
   @override
   void performResize() {
