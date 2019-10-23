@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:flutter_app/third.dart';
+
 
 void main() {
   runApp(new MyApp());
@@ -145,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
       bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: 1,
+        currentIndex: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.create),
@@ -167,6 +169,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SecondPage()),
+            );
+          if(value == 2)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ThirdPage()),
             );
 
         },
@@ -236,7 +243,7 @@ class _SecondPageState extends State<SecondPage> {
 
   @override
   void initState() {
-    _message = '２ページ目\n$_value kg';
+    _message = '体重のグラフ遷移\n$_value kg';
     super.initState();
   }
 
@@ -337,11 +344,11 @@ class _SecondPageState extends State<SecondPage> {
 
 
       bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: 1,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.create),
-            title: Text('???'),
+            title: Text('Add'),
           ),
 
           BottomNavigationBarItem(
@@ -356,8 +363,14 @@ class _SecondPageState extends State<SecondPage> {
         ],
         onTap: (int value){
           if(value == 0)
-            Navigator.pop(
-              context
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+            );
+          if(value == 2)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ThirdPage()),
             );
 
         },
@@ -411,6 +424,8 @@ class _SecondPageState extends State<SecondPage> {
     });
   }
 }
+
+
 
 
 class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
