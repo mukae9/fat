@@ -255,7 +255,7 @@ class _MyRenderBox extends RenderBox {
 
     Paint p = Paint();
 
-    Rect r = Rect.fromLTWH(dx + 150.0, dy + 150.0,70.0, 70.0);
+    Rect r = Rect.fromLTWH(dx + 175.0, dy + 20.0,70.0, 70.0);
     if (_img != null) {
       Rect r0 = Rect.fromLTWH(0.0, 0.0, _img.width.toDouble(),
           _img.height.toDouble());
