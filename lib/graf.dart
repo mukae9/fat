@@ -1,45 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:typed_data';
-import 'dart:async';
-import 'dart:ui' as ui;
 
-import 'package:flutter_app/graf.dart';
+import 'package:flutter_app/main.dart';
 import 'package:flutter_app/mydate.dart';
 
-
-void main() {
-  runApp(new MyApp());
-}
-class MyApp extends StatelessWidget {
-
+class SecondPage extends StatefulWidget {
+  SecondPage({Key key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Generated App',
-      theme: new ThemeData(
-        primarySwatch: Colors.indigo,
-        primaryColor: const Color(0xFF041b60),
-        accentColor: const Color(0xFF3f51b5),
-        canvasColor: const Color(0xFFfafafa),
-        fontFamily: 'Roboto',
-      ),
-      home: new MyHomePage(),
-//      home: new MyHomePage(),
-    );
-
-  }
+  _SecondPageState createState() => new _SecondPageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _SecondPageState extends State<SecondPage> {
   String _message;
   double _value = 50.0;
   int _index = 0;
@@ -47,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _message = '嘘偽りない体重を記録\n$_value kg';
+    _message = '体重のグラフ遷移\n$_value kg';
     super.initState();
   }
 
@@ -148,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
       bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: 1,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.create),
@@ -166,10 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
         onTap: (int value){
-          if(value == 1)
+          if(value == 0)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SecondPage()),
+              MaterialPageRoute(builder: (context) => MyHomePage()),
             );
           if(value == 2)
             Navigator.push(
@@ -229,84 +200,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
-
-class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
-  @override
-  RenderObject createRenderObject(BuildContext context){
-    return _MyRenderBox();
-  }
-}
-
-
-class _MyRenderBox extends RenderBox {
-
-  ui.Image _img;
-
-
-  @override
-  bool hitTest(HitTestResult result, {@required Offset position}) {
-    return true;
-  }
-
-  _MyRenderBox() {
-    loadAssetImage('fat.png');
-  }
-
-  loadAssetImage(String fname) =>
-      rootBundle.load
-        ("assets/$fname").then((bd) {
-        Uint8List u8lst = Uint8List.view(bd.buffer);
-        ui.instantiateImageCodec(u8lst).then((codec) {
-          codec.getNextFrame().then(
-                  (frameInfo) {
-                _img = frameInfo.image;
-                markNeedsPaint();
-                print("_img created: $_img");
-              }
-          );
-        });
-      });
-
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    Canvas c = context.canvas;
-    int dx = offset.dx.toInt();
-    int dy = offset.dy.toInt();
-
-    Paint p = Paint();
-
-    Rect r = Rect.fromLTWH(dx + 175.0, dy + 20.0,70.0, 70.0);
-    if (_img != null) {
-      Rect r0 = Rect.fromLTWH(0.0, 0.0, _img.width.toDouble(),
-          _img.height.toDouble());
-          c.drawImageRect(_img, r0, r, p);
-      print('draw _img.');
-    } else {
-      print('_img is null.');
-    }
-
-//    p.style = PaintingStyle.fill;
-//    p.color = Color.fromARGB(150, 200, 0, 255);
-//    Rect r = Rect.fromLTWH(dx + 50.0, dy + 50.0, 150.0, 150.0);
-//    c.drawRect(r, p);
-//    p.style = PaintingStyle.stroke;
-//    p.color = Color.fromARGB(150, 200, 0, 255);
-//    p.strokeWidth = 10.0;
-//    r = Rect.fromLTWH(dx + 100.0, dy + 100.0, 150.0, 150.0);
-//    c.drawRect(r, p);
-//  }
-//
-  }
-
-
-  @override
-  bool get sizedByParent =>
-      true;
-
-  @override
-  void performResize() {
-    size = constraints.biggest;
-  }
-}
