@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/graf.dart';
+import 'package:flutter/cupertino.dart';
 
 class ThirdPage extends StatefulWidget {
   ThirdPage({Key key}) : super(key: key);
@@ -134,12 +135,12 @@ class _ThirdPageState extends State<ThirdPage> {
           if(value == 0)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              CupertinoPageRoute(builder: (context) => MyHomePage()),
             );
           if(value == 1)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SecondPage()),
+              CupertinoPageRoute(builder: (context) => SecondPage()),
             );
 
         },

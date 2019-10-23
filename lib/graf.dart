@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/mydate.dart';
+import 'package:flutter/cupertino.dart';
 
 class SecondPage extends StatefulWidget {
   SecondPage({Key key}) : super(key: key);
@@ -140,12 +141,12 @@ class _SecondPageState extends State<SecondPage> {
           if(value == 0)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              CupertinoPageRoute(builder: (context) => MyHomePage()),
             );
           if(value == 2)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage()),
+              CupertinoPageRoute(builder: (context) => ThirdPage()),
             );
 
         },

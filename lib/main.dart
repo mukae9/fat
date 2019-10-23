@@ -4,7 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:typed_data';
 import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_app/graf.dart';
 import 'package:flutter_app/mydate.dart';
@@ -40,10 +43,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _controller = TextEditingController();
+  final _fname = 'mydata.txt';
+
   String _message;
   double _value = 50.0;
   int _index = 0;
-  final controller = TextEditingController();
+
 
   @override
   void initState() {
@@ -169,12 +175,12 @@ class _MyHomePageState extends State<MyHomePage> {
           if(value == 1)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SecondPage()),
+              CupertinoPageRoute(builder: (context) => SecondPage()),
             );
           if(value == 2)
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage()),
+              CupertinoPageRoute(builder: (context) => ThirdPage()),
             );
 
         },
@@ -214,6 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void buttonPressed(){
+    saveIt(_value);
     setState(() {
 //       _message=controller.text + "Kg…\n"+"そのままでいいと思ってんの？";
       _message= '$_value Kg…\nそのままでいいと思ってんの？';
@@ -225,6 +232,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState((){
       _index = value;
       _message ='you tapped:"'+items[_index]+'".';
+    });
+  }
+
+  void saveIt(double value) async {
+    getDataFile(_fname).then((File file){
+      file.writeAsString(value);
     });
   }
 }
