@@ -228,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void tapBottomIcon(int value){
-    var items = ['追加ページ','グラフページ','マイページ'];
+    var items = ['追加ページ','グラフ','マイページ'];
     setState((){
       _index = value;
       _message ='you tapped:"'+items[_index]+'".';
