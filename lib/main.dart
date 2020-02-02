@@ -3,14 +3,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:typed_data';
-import 'dart:async';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_app/graf.dart';
 import 'package:flutter_app/mydate.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 
 void main() {
@@ -34,7 +33,12 @@ class MyApp extends StatelessWidget {
     );
 
   }
+
+
+
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -43,12 +47,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
   final _controller = TextEditingController();
   final _fname = 'mydata.txt';
 
   String _message;
   double _value = 50.0;
   int _index = 0;
+
+  final slide = SleekCircularSlider(
+
+
+
+  );
+
+
+
+
+
 
 
   @override
@@ -57,8 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('fatrol'),
@@ -117,13 +139,54 @@ class _MyHomePageState extends State<MyHomePage> {
 
             Padding(
               padding: EdgeInsets.all(25.0),
-              child: Slider(
-                key: null,
-                onChanged: textChanged,
-                value: _value,
-                min: 20.0,
-                max: 100.0,
+              child: SafeArea(
+                child: Center(
+                  child: SleekCircularSlider(
+                    min: 0,
+                    max: 100,
 
+
+                    appearance: CircularSliderAppearance(
+
+                      customWidths: CustomSliderWidths(
+                        progressBarWidth: 12,
+                        trackWidth: 2,
+                        handlerSize: 12,
+                        shadowWidth: 1.4,
+                      ),
+
+                      customColors: CustomSliderColors(
+                        hideShadow: true,
+                        dotColor: Color(0xfffefefe),
+                        shadowColor: Color(0x28282828),
+                        progressBarColors: [Color(0xFFA7F1FF), Color(0xFF7FFFD4),Color(0xFFA7F1FF)],
+              //        trackColor: kAppPurple650,
+              //        progressBarColors: [kAppPurple150, kAppPurple250],
+              //        gradientStartAngle: 90,
+              //        gradientEndAngle: 270,
+                      ),
+
+                      infoProperties: InfoProperties(
+                        modifier: (double value) {
+                          return  '$value kg';
+                        },
+
+                      )
+                    ),
+
+                    onChangeStart: (double value) {
+
+
+                      print(value);
+                    },
+                    onChangeEnd: (double value) {
+
+
+                      print(value);
+                    },
+                  )
+                ),
+              ),
               ),
 //                  child:TextField(
 //                    controller: controller,
@@ -134,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                        fontFamily: "Roboto"),
 //                  ),
 
-            ),
+
 
 
             FlatButton(key: null,
@@ -236,11 +299,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void saveIt(double value) async {
-    getDataFile(_fname).then((File file){
-      file.writeAsString(value);
-    });
+//    getDataFile(_fname).then((File file){
+//      file.writeAsString(value);
+//    });
   }
 }
+
 
 
 
@@ -322,4 +386,6 @@ class _MyRenderBox extends RenderBox {
   void performResize() {
     size = constraints.biggest;
   }
+
+
 }
